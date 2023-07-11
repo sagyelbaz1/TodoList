@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo List</title>
+</head>
+<body>
+    <h2>Todo List</h2>
+    <table>
+        <tr>
+            <th>Task</th>
+            <th>Dead Line</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+        <% todolist.forEach(element => {%>
+        <tr>
+            <td><%= element.content %></td>
+            <td><%= element.deadline %></td>
+            <% if (element.done) { %>
+                <td> done</td>
+                <%} else { %>
+                <td> incomplete </td>
+                <% } %>
+            <td>  
+                <form action="/changeStatus" method="POST">
+                    <input type="hidden" name="todoId" value="<%= element._id %>">
+                    <input type="hidden" name="status" value="<%= element.done %>">
+                    <% if (element.done) { %>
+                        <button type="submit">Unfinish</button>
+                        <%} else { %>
+                        <button type="submit">Finished</button>
+                        <% } %>
+                </form>
+            </td>
+            <td>
+                <form action="/delete" method="POST">
+                    <input type="hidden" name="todoId" value="<%= element._id %>">
+                    <button class="delete" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        <%})%>
+    </table>
+
+    <form action="/create" method="POST">
+        <input type="text" name="content" placeholder="Enter Task">
+        <input type="date" name="deadline" placeholder="Enter Dead Line">
+        <button type="submit">Add</button>
+     </form>
+
+</body>
+</html>
